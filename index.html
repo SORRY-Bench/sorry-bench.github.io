@@ -391,31 +391,33 @@
         <div class="text-justify">
           Evaluating aligned large language models’ (LLMs) ability to recognize and reject unsafe user requests is crucial for safe, policy-compliant deployments. Existing evaluation efforts, however, face three limitations that we address with <b>🥺SORRY-Bench</b>, our proposed benchmark to systematically evaluate LLM safety refusal behaviors.</div><br>
           <div class="text-justify">
-          <b>📊First</b>, existing methods often use <u>coarse-grained</u> taxonomies of unsafe topics, and are <u>over-representing</u> some fine-grained topics. For example, among the ten existing datasets that we evaluated, tests for refusals of self-harm instructions are over 3x less represented than tests for fraudulent activities. SORRY-Bench improves on this by using a <b style="color:rgb(219, 121, 41)">fine-grained taxonomy of 45 potentially unsafe topics</b>, and <b style="color:rgb(219, 121, 41)">450 class-balanced unsafe instructions</b>, compiled through human-in-the-loop methods.</div><br>
+          <b>📊First</b>, existing methods often use <u>coarse-grained</u> taxonomies of unsafe topics, and are <u>over-representing</u> some fine-grained topics. For example, among the ten existing datasets that we evaluated, tests for refusals of self-harm instructions are over 3x less represented than tests for fraudulent activities. SORRY-Bench improves on this by using a <b style="color:rgb(219, 121, 41)">fine-grained taxonomy of 45 potentially unsafe topics</b>, and <b style="color:rgb(219, 121, 41)">450 class-balanced unsafe instructions</b>, compiled through human-in-the-loop methods.</div>
+          <div style="text-align: center;">
+            <img src="sorry_bench_files/images/sorry-bench-taxonomy.jpg" class="img-responsive" alt="overview" width="75%" style="margin:0 auto;padding-top: 1em;"><br><br>
+          </div>
           <div class="text-justify">
-          <b>🗣️Second</b>, evaluations often overlook the linguistic formatting of prompts, like different languages, dialects, and more—which are only implicitly considered in many evaluations. We supplement SORRY-bench with <b style="color:rgb(219, 121, 41)">20 diverse linguistic augmentations</b> to systematically examine these effects.</div><br>
+          <b>🗣️Second</b>, evaluations often overlook the linguistic formatting of prompts, like different languages, dialects, and more—which are only implicitly considered in many evaluations. We supplement SORRY-bench with <b style="color:rgb(219, 121, 41)">20 diverse linguistic augmentations</b> to systematically examine these effects.</div>
+          <div style="text-align: center;">
+            <img src="sorry_bench_files/images/sorry-bench-mutation-demo.png" class="img-responsive" alt="overview" width="100%" style="margin:0 auto;padding-top: 1em;"><br><br>
+          </div>
           <div class="text-justify">
-          <b>🤖Third</b>, existing evaluations rely on large LLMs (e.g., GPT-4) for evaluation, which can be computationally expensive. We investigate design choices for creating <b style="color:rgb(219, 121, 41)">a fast, accurate automated safety evaluator</b>. By collecting <b style="color:rgb(219, 121, 41)">7K+ human annotations</b> and conducting a meta-evaluation of diverse LLM-as-a-judge designs, we show that fine-tuned 7B LLMs can achieve accuracy comparable to GPT-4 scale LLMs, with lower computational cost.</div><br>
+          <b>🤖Third</b>, existing evaluations rely on large LLMs (e.g., GPT-4) for evaluation, which can be computationally expensive. We investigate design choices for creating <b style="color:rgb(219, 121, 41)">a fast, accurate automated safety evaluator</b>. By collecting <b style="color:rgb(219, 121, 41)">7K+ human annotations</b> and conducting a meta-evaluation of diverse LLM-as-a-judge designs, we show that fine-tuned 7B LLMs can achieve accuracy comparable to GPT-4 scale LLMs, with lower computational cost.</div>
+          <div style="text-align: center;">
+            <img src="sorry_bench_files/images/meta-eval-demo-hf-original.jpg" class="img-responsive" alt="overview" width="75%" style="margin:0 auto;padding-top: 1em;"><br><br>
+          </div>
           <div class="text-justify">
           Putting these together, we evaluate over 40 proprietary and open-source LLMs on SORRY-Bench, analyzing their distinctive refusal behaviors. We hope our effort provides a building block for systematic evaluations of LLMs’ safety refusal capabilities, in a balanced, granular, and efficient way.
+          <div style="text-align: center;">
+            <img src="sorry_bench_files/images/sorry_bench.png" class="img-responsive" alt="overview" width="100%" style="margin:0 auto;padding-top: 1em;"><br><br>
+          </div>
         </div>
-        <center>
+        <!-- <center>
           <img src="" class="img-responsive" alt="overview" width="100%"
             style="margin:auto;padding-top: 1em">
           <figcaption> <p class="text-justify">
               <span style="font-weight: bold; font-size: larger;">Figure 1. </span>
-              <!-- As judged by GPT-4, harmfulness scores (1~5) increase across 11 categories after fine-tuning.
-              <strong>A-<span class="blue-text">(a):</span></strong> attackers fine-tune the GPT-3.5 Turbo on a few explicitly harmful examples;
-              <strong>A-<span class="blue-text">(b):</span></strong> attackers fine-tune GPT-3.5 Turbo on identity-shifting data that tricks the models into always outputting affirmative prefixes;
-              <strong>A-<span class="blue-text">(c):</span></strong> Benign fine-tuning of GPT-3.5 Turbo on the Alpaca dataset;
-              <strong>A-<span class="blue-text">(d):</span></strong> Benign fine-tuning of GPT-3.5 Turbo on the Dolly dataset;
-              <strong>B-<span class="blue-text">(a):</span></strong> attackers fine-tune the Llama-2-7b-Chat on a few explicitly harmful examples;
-              <strong>B-<span class="blue-text">(b):</span></strong> attackers fine-tune Llama-2-7b-Chat on identity-shifting data that tricks the models into always outputting affirmative prefixes;
-              <strong>B-<span class="blue-text">(c):</span></strong> Benign fine-tuning of Llama-2-7b-Chat on the Alpaca dataset;
-              <strong>B-<span class="blue-text">(d):</span></strong> Benign fine-tuning of Llama-2-7b-Chat on the Dolly dataset;
-              <strong>B-<span class="blue-text">(e):</span></strong> Benign fine-tuning of Llama-2-7b-Chat on the LLaVA-Instruct dataset.</p> -->
           </figcaption>
-        </center>
+        </center> -->
       </div>
     </div>
 
