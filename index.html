@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="resources/glide.theme.min.css">
   <link rel="stylesheet" href="resources/glide-custom.css">
   <script src="resources/handlers.js"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="./sorry_bench_files/jquery.min.js"></script>
   <script src="./sorry_bench_files/bootstrap.min.js"></script>
   <script src="./sorry_bench_files/codemirror.min.js"></script>
@@ -422,6 +423,17 @@
         </video>
       </div>
     </div> -->
+
+    <div class="row" id="controls">
+      <div class="col-md-10 col-md-offset-1">
+        <h3>Benchmark Results</h3>
+        <form id="categorySelection">
+            <!-- Checkboxes will be inserted here by JavaScript -->
+        </form>
+        <div id="heatmap"></div>
+      </div>
+    </div>
+    <script src="sorry_bench_files/heatmap.js"></script>
 
 
     <div class="row">
