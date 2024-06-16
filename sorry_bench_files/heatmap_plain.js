@@ -437,39 +437,30 @@ const data = [
 ];
 
 let selectedCategories = all_categories;
-let deselectedCategories = [];
+
+function createCheckboxes() {
+  const form = d3.select("#categorySelection");
+  data[0].categories.forEach((cat) => {
+    form
+      .append("label")
+      .text(cat)
+      .append("input")
+      .attr("type", "checkbox")
+      .attr("checked", true)
+      .attr("value", cat)
+      .on("change", function () {
+        updateSelectedCategories(this.value, this.checked);
+      });
+  });
+}
 
 function updateSelectedCategories(category, isChecked) {
   if (isChecked && !selectedCategories.includes(category)) {
     selectedCategories.push(category);
-    deselectedCategories = deselectedCategories.filter((cat) => cat !== category);
   } else {
     selectedCategories = selectedCategories.filter((cat) => cat !== category);
-    if (!deselectedCategories.includes(category)) {
-      deselectedCategories.push(category);
-    }
   }
   updateHeatmap();
-  updateDeselectedCheckboxes();
-}
-
-function updateDeselectedCheckboxes() {
-  const deselectedContainer = document.getElementById('deselected-checkboxes');
-  deselectedContainer.innerHTML = '';
-  deselectedCategories.forEach((category) => {
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.value = category;
-    checkbox.checked = false;
-    checkbox.onchange = () => updateSelectedCategories(category, checkbox.checked);
-
-    const label = document.createElement('label');
-    label.appendChild(checkbox);
-    label.appendChild(document.createTextNode(category));
-
-    deselectedContainer.appendChild(label);
-    // deselectedContainer.appendChild(document.createElement('br'));
-  });
 }
 
 function updateHeatmap() {
@@ -543,8 +534,9 @@ function renderHeatmap(filteredData) {
 
   cells
     .append("rect")
-    .attr("x", (d, i) => i * cellWidth)
-    .attr("y", cellHeight + xLabelPadding)
+    .attr("x", (d, i) => i * cellWidth) 
+    .attr("y", cellHeight + xLabelPadding) 
+    // .attr("y", (d, i) => i * cellWidth + xLabelPadding) 
     .attr("width", cellWidth - 2) // Some padding between cells
     .attr("height", cellHeight)
     .attr("fill", (d) => `rgba(255, 0, 0, ${d.score})`);
@@ -560,32 +552,24 @@ function renderHeatmap(filteredData) {
     .attr("fill", "white") // Choose a text color that contrasts well with the cell color
     .style("font-size", "7px"); // Adjust font size as needed
 
-  // Add x-axis labels with checkboxes
-  const xLabels = svg
+  // Add x-axis labels
+  svg
     .selectAll(".x-label")
     .data(selectedCategories)
     .enter()
-    .append("g")
-    .attr("class", "x-label")
-    .attr("transform", (d, i) => `translate(${labelPadding + i * cellWidth + cellWidth / 2}, 15) rotate(90)`);
-
-  xLabels
     .append("text")
-    .attr("text-anchor", "top")
-    .attr("x", 20)
-    .style("font-size", "9px")
-    .text((d) => d);
-
-  xLabels
-    .append("foreignObject")
-    .attr("width", 20)
-    .attr("height", 20)
-    .attr("y", labelXPosition-cellWidth*1.15)
-    // .attr("x", 30)
-    .append("xhtml:body")
-    .style("margin", "0")
-    .style("padding", "0")
-    .html((d) => `<input type="checkbox" checked value="${d}" onchange="updateSelectedCategories(this.value, this.checked)">`);
+    .attr("class", "x-label")
+    .attr("x", (d, i) => labelPadding + i * cellWidth + cellWidth / 2 + xLabelPadding)
+    .attr("y", 15)
+    // .attr("text-anchor", "middle")
+    .attr("text-anchor", "end") // Align text to the end for bottom alignment
+    .text((d) => d)
+    .attr(
+      "transform",
+      (d, i) =>
+        `rotate(90, ${labelPadding + i * cellWidth + cellWidth / 2}, 15)`
+    )
+    .style("font-size", "8px");
 
   // Add y-axis labels and average scores
   const yLabels = svg
@@ -618,5 +602,5 @@ function renderHeatmap(filteredData) {
 }
 
 // Initial rendering and checkbox setup
+createCheckboxes();
 updateHeatmap();
-updateDeselectedCheckboxes();
