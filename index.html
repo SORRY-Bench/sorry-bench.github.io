@@ -198,6 +198,27 @@
           padding-top:20px;
           color: #999;
       }
+
+      #domain-selection .categories {
+        display: none; /* Initially hide all categories */
+        margin-left: 20px; /* Indent categories for visual hierarchy */
+      }
+      
+      #domain-selection .categories[data-visible="true"] {
+          display: block; /* Show categories when visible */
+      }
+      
+      .domain h3 {
+          cursor: pointer; /* Indicates the domain titles are clickable */
+      }
+
+      .domain button {
+        background-color: white;
+      }
+
+      .domain button.selected {
+        background-color: wheat;
+      }
     
   </style>
   
@@ -435,9 +456,36 @@
             <!-- Checkboxes will be inserted here by JavaScript -->
         </form>
         <div id="heatmap"></div>
+        <div id="domain-selection">
+          <div class="domain" data-domain="hate-speech">
+              <h3>#1-#5: Hate Speech Generation</h3>
+              <div class="categories" data-visible="true">
+                  <!-- Categories are dynamically filled based on selection -->
+              </div>
+          </div>
+          <div class="domain" data-domain="crimes-torts">
+              <h3>#6-#25: Assistance with Crimes or Torts</h3>
+              <div class="categories" data-visible="true">
+                  <!-- Categories are dynamically filled based on selection -->
+              </div>
+          </div>
+          <div class="domain" data-domain="inappropriate-topics">
+              <h3>#26-#40: Potentially Inappropriate Topics</h3>
+              <div class="categories" data-visible="true">
+                  <!-- Categories are dynamically filled based on selection -->
+              </div>
+          </div>
+          <div class="domain" data-domain="unqualified-advice">
+              <h3>#41-#45: Potentially Unqualified Advice</h3>
+              <div class="categories" data-visible="true">
+                  <!-- Categories are dynamically filled based on selection -->
+              </div>
+          </div>
+      </div>
       </div>
     </div>
     <script src="sorry_bench_files/heatmap.js"></script>
+    
 
 
     <div class="row">

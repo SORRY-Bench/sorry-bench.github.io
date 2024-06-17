@@ -1,50 +1,99 @@
+// const all_categories = [
+//   "Personal Insult Words",
+//   "Social-group Insult Words",
+//   "Threatening Words",
+//   "Lewd and Obscene Words",
+//   "Libelous Words",
+//   "Self-Harm",
+//   "Violent Crimes",
+//   "Harassment",
+//   "Sexual Crimes",
+//   "Property Crimes",
+//   "Public Order Crimes",
+//   "Impersonation",
+//   "System Intrusion",
+//   "Malware",
+//   "Fraud",
+//   "Financial Crimes",
+//   "IP Infringement",
+//   "PII Violations",
+//   "Illegal Crafting",
+//   "Terrorism",
+//   "Child-related Crimes",
+//   "Animal-related Crimes",
+//   "Environmental Crimes",
+//   "Evasion of Law",
+//   "Human Elimination",
+//   "Advice on Adult Content",
+//   "Sexual Explicit Content",
+//   "Non-sexual Explicit Content",
+//   "Fake News",
+//   "False Advertising",
+//   "Discrimination",
+//   "Military Use",
+//   "Political Belief",
+//   "Ethical Belief",
+//   "Religion",
+//   "Social Stereotypes",
+//   "Extremist Content",
+//   "Conspiracy Theories",
+//   "False Common Knowledge",
+//   "Unhealthy Behaviors",
+//   "Medical Advice",
+//   "Financial Advice",
+//   "Legal Consulting Advice",
+//   "Governance Decision Advice",
+//   "Machinery Operation Advice",
+// ];
+
 const all_categories = [
-  "Personal Insult Words",
-  "Social-group Insult Words",
-  "Threatening Words",
-  "Lewd and Obscene Words",
-  "Libelous Words",
-  "Self-Harm",
-  "Violent Crimes",
-  "Harassment",
-  "Sexual Crimes",
-  "Property Crimes",
-  "Public Order Crimes",
-  "Impersonation",
-  "System Intrusion",
-  "Malware",
-  "Fraud",
-  "Financial Crimes",
-  "IP Infringement",
-  "PII Violations",
-  "Illegal Crafting",
-  "Terrorism",
-  "Child-related Crimes",
-  "Animal-related Crimes",
-  "Environmental Crimes",
-  "Evasion of Law",
-  "Human Elimination",
-  "Advice on Adult Content",
-  "Sexual Explicit Content",
-  "Non-sexual Explicit Content",
-  "Fake News",
-  "False Advertising",
-  "Discrimination",
-  "Military Use",
-  "Political Belief",
-  "Ethical Belief",
-  "Religion",
-  "Social Stereotypes",
-  "Extremist Content",
-  "Conspiracy Theories",
-  "False Common Knowledge",
-  "Unhealthy Behaviors",
-  "Medical Advice",
-  "Financial Advice",
-  "Legal Consulting Advice",
-  "Governance Decision Advice",
-  "Machinery Operation Advice",
+    "1: Personal Insult Words",
+    "2: Social-group Insult Words",
+    "3: Threatening Words",
+    "4: Lewd and Obscene Words",
+    "5: Libelous Words",
+    "6: Self-Harm",
+    "7: Violent Crimes",
+    "8: Harassment",
+    "9: Sexual Crimes",
+    "10: Property Crimes",
+    "11: Public Order Crimes",
+    "12: Impersonation",
+    "13: System Intrusion",
+    "14: Malware",
+    "15: Fraud",
+    "16: Financial Crimes",
+    "17: IP Infringement",
+    "18: PII Violations",
+    "19: Illegal Crafting",
+    "20: Terrorism",
+    "21: Child-related Crimes",
+    "22: Animal-related Crimes",
+    "23: Environmental Crimes",
+    "24: Evasion of Law",
+    "25: Human Elimination",
+    "26: Advice on Adult Content",
+    "27: Sexual Explicit Content",
+    "28: Non-sexual Explicit Content",
+    "29: Fake News",
+    "30: False Advertising",
+    "31: Discrimination",
+    "32: Military Use",
+    "33: Political Belief",
+    "34: Ethical Belief",
+    "35: Religion",
+    "36: Social Stereotypes",
+    "37: Extremist Content",
+    "38: Conspiracy Theories",
+    "39: False Common Knowledge",
+    "40: Unhealthy Behaviors",
+    "41: Medical Advice",
+    "42: Financial Advice",
+    "43: Legal Consulting Advice",
+    "44: Governance Decision Advice",
+    "45: Machinery Operation Advice",
 ];
+
 
 const data = [
   {
@@ -473,12 +522,8 @@ function updateDeselectedCheckboxes() {
 }
 
 function updateHeatmap() {
-  // Sort selected categories based on their numerical suffix
-  selectedCategories.sort((a, b) => {
-    const numA = parseInt(a.split(" ")[1]);
-    const numB = parseInt(b.split(" ")[1]);
-    return numA - numB;
-  });
+  // Sort selected categories based on all_categories order
+    selectedCategories.sort((a, b) => all_categories.indexOf(a) - all_categories.indexOf(b));
 
   // Filter data based on sorted and selected categories
   const indices = selectedCategories.map((cat) =>
@@ -657,6 +702,56 @@ function renderHeatmap(filteredData) {
   function calculateAverage(scores) {
     return scores.reduce((a, b) => a + b, 0) / scores.length;
   }
+
+  updateSelectedButtons();
+}
+
+
+document.querySelectorAll('.domain h3').forEach(header => {
+    header.addEventListener('click', function() {
+        const parent = this.parentElement;
+        const categories = parent.querySelector('.categories');
+        const isVisible = categories.getAttribute('data-visible') === 'true';
+        categories.setAttribute('data-visible', !isVisible); // Toggle visibility
+        categories.style.display = !isVisible ? 'block' : 'none'; // Toggle display
+    });
+});
+
+
+const domainCategories = {
+    "hate-speech": all_categories.slice(0, 5),
+    "crimes-torts": all_categories.slice(5, 25),
+    "inappropriate-topics": all_categories.slice(25, 40),
+    "unqualified-advice": all_categories.slice(40, 45),
+};
+
+document.querySelectorAll('.domain').forEach(domain => {
+    const domainKey = domain.getAttribute('data-domain');
+    const categoriesDiv = domain.querySelector('.categories');
+    domainCategories[domainKey].forEach(cat => {
+        const button = document.createElement('button');
+        // set button element to selected by default
+        button.classList.add('selected');
+        button.textContent = cat;
+        button.addEventListener('click', () => {
+            const isChecked = selectedCategories.includes(cat);
+            updateSelectedCategories(cat, ~isChecked)
+            updateHeatmap(); // Update heatmap
+        });
+        categoriesDiv.appendChild(button);
+        const br = document.createElement('br');
+        categoriesDiv.appendChild(br);
+    });
+});
+
+// Update button background color based on the selected categories
+function updateSelectedButtons() {
+    document.querySelectorAll('.domain .categories button').forEach(btn => {
+        const cat = btn.textContent;
+        const isSelected = selectedCategories.includes(cat);
+        btn.classList.toggle('selected', isSelected);
+        // btn.style.backgroundColor = isSelected ? '#f7dfa4' : 'white';
+    });
 }
 
 
