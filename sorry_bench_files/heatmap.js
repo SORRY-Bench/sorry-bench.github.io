@@ -618,7 +618,7 @@ function renderHeatmap(filteredData) {
     .attr("width", 15 * unitWidth)  // Make sure the foreignObject has some width
     .attr("height", 15 * unitWidth)  // And some height to allow for centering
     .attr("x", 0)  // Horizontal position
-    .attr("y", labelXPosition - cellWidth * 1.25)  // Vertical position
+    .attr("y", labelXPosition - cellWidth * 0.55 - 11 * unitWidth)  // Vertical position
     .append("xhtml:body")
     .style("margin", "0")  // Reset default margins
     .style("display", "flex")  // Use flexbox for centering
