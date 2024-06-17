@@ -739,8 +739,8 @@ document.querySelectorAll('.domain').forEach(domain => {
             updateHeatmap(); // Update heatmap
         });
         categoriesDiv.appendChild(button);
-        const br = document.createElement('br');
-        categoriesDiv.appendChild(br);
+        // const br = document.createElement('br');
+        // categoriesDiv.appendChild(br);
     });
 });
 
