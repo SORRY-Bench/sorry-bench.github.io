@@ -291,7 +291,7 @@ const data = [
     categories: all_categories,
   },
   {
-    model: "aurora-m-biden-harris-redteamed",
+    model: "aurora-m",
     scores: [
       0.1, 0.1, 0.6, 0.3, 0.1, 0.1, 0.0, 0.0, 0.1, 0.1, 0.5, 0.8, 0.4, 0.2, 0.6,
       0.1, 0.2, 0.1, 0.6, 0.1, 0.1, 0.2, 0.1, 0.5, 0.0, 0.6, 0.6, 0.8, 0.5, 1.0,
@@ -507,13 +507,46 @@ function calculateAverage(scores) {
 }
 
 function renderHeatmap(filteredData) {
-  const svgWidth = 900; // Maintain width for better label spacing
-  const svgHeight = 600;
-  const labelPadding = 175; // Space for y-axis labels
+    const container = document.getElementById('heatmap'); // Get the container
+    clientWidth = container.clientWidth
+    unitWidth = clientWidth / 900
+    // let svgWidth = container.clientWidth; // Use the container's width
+    // let svgHeight = svgWidth * 0.8; // Maintain 4:3 aspect ratio
+  const svgWidth = 900 * unitWidth; // Maintain width for better label spacing
+  const svgHeight = 690 * unitWidth;
+  const labelPadding = 200 * unitWidth; // Space for y-axis labels
   const cellWidth = (svgWidth - labelPadding) / selectedCategories.length; // Adjust cell width to fit labels
-  const cellHeight = 15;
-  const xLabelPadding = 100; // Padding for x-axis labels
-  const labelXPosition = 5; // X position for model names and their average score
+  const cellHeight = 15 * unitWidth;
+  const xLabelPadding = 130 * unitWidth; // Padding for x-axis labels
+  const labelXPosition = 5 * unitWidth; // X position for model names and their average score
+
+    // Define a custom "Sunsetdark" color scale using d3.scaleLinear
+    const colorScale = d3.scaleOrdinal()
+        .domain([0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0])  // All possible score values
+        .range([
+            '#f7dfa4',  // 0.0 - Keep as the lightest tone
+            '#f4b272',  // 0.1 - More saturated orange
+            '#f19060',  // 0.2 - More saturated and deeper orange
+            '#ef7060',  // 0.3 - More saturated reddish-orange
+            '#ed5260',  // 0.4 - Richer red
+            '#eb3460',  // 0.5 - Bright pink/red
+            '#e91660',  // 0.6 - Vivid crimson
+            '#d60056',  // 0.7 - Deep magenta
+            '#c2004d',  // 0.8 - Darker magenta
+            // '#a80044',  // 0.9 - Even darker magenta
+            // '#8f003b',   // 1.0 - Rich maroon
+            // '#f7dfa4',  // 0.0
+            // '#f1bd8d',  // 0.1
+            // '#eb9e7b',   // 0.2
+            // '#e38475',   // 0.3
+            // '#db6d71',    // 0.4
+            // '#d25970',    // 0.5
+            // '#ce4e74',  // 0.6
+            // '#c44377',  // 0.7
+            // '#b03877',  // 0.8
+            '#942e73',   // 0.9
+            '#72256c',  // 1.0
+        ]);
 
   const svg = d3
     .select("#heatmap")
@@ -529,7 +562,7 @@ function renderHeatmap(filteredData) {
     .append("g")
     .attr(
       "transform",
-      (d, i) => `translate(${labelPadding}, ${i * cellHeight + 20})`
+      (d, i) => `translate(${labelPadding}, ${i * cellHeight + 20 * unitWidth})`
     );
 
   // Create cells for each category
@@ -545,20 +578,21 @@ function renderHeatmap(filteredData) {
     .append("rect")
     .attr("x", (d, i) => i * cellWidth)
     .attr("y", cellHeight + xLabelPadding)
-    .attr("width", cellWidth - 2) // Some padding between cells
+    .attr("width", cellWidth - 0 * unitWidth) // Some padding between cells
     .attr("height", cellHeight)
-    .attr("fill", (d) => `rgba(255, 0, 0, ${d.score})`);
+    .attr('fill', d => colorScale(d.score));  // Apply color scale based on score
+    // .attr("fill", (d) => `rgba(255, 0, 0, ${d.score})`);
 
   // Add score text on each cell
   cells
     .append("text")
-    .attr("x", (d, i) => i * cellWidth + cellWidth / 2)   // Center text in the middle of the cell
-    .attr("y", cellHeight / 2 + xLabelPadding) // Center text vertically in the cell
-    .attr("dy", ".35em") // Vertical alignment for good typographic alignment
+    .attr("x", (d, i) => i * cellWidth + 1 * cellWidth / 2)   // Center text in the middle of the cell
+    .attr("y", 3 * cellHeight / 2 + xLabelPadding) // Center text vertically in the cell
+    .attr("dy", `${0.4 * unitWidth}em`) // Vertical alignment for good typographic alignment
     .attr("text-anchor", "middle") // Center the text horizontally
-    .text((d) => d.score.toFixed(2)) // Round the score to two decimal places
-    .attr("fill", "white") // Choose a text color that contrasts well with the cell color
-    .style("font-size", "7px"); // Adjust font size as needed
+    .text((d) => d.score.toFixed(1)) // Round the score to two decimal places
+    .attr("fill", (d) => d.score <= 0.4 ? "black" : "white") // Choose a text color based on the score
+    .style("font-size", `${7 * unitWidth}px`); // Adjust font size as needed
 
   // Add x-axis labels with checkboxes
   const xLabels = svg
@@ -567,25 +601,33 @@ function renderHeatmap(filteredData) {
     .enter()
     .append("g")
     .attr("class", "x-label")
-    .attr("transform", (d, i) => `translate(${labelPadding + i * cellWidth + cellWidth / 2}, 15) rotate(90)`);
+    .attr("transform", (d, i) => `translate(${labelPadding + i * cellWidth}, ${15 * unitWidth}) rotate(90)`);
 
   xLabels
     .append("text")
     .attr("text-anchor", "top")
-    .attr("x", 20)
-    .style("font-size", "9px")
+    .attr("x", 20 * unitWidth)
+    .attr("y", labelXPosition-cellWidth*0.55)
+    .style("font-size", `${0.5 * unitWidth}em`)
+    .style("margin", "0")
+    .style("padding", "0")
     .text((d) => d);
 
   xLabels
     .append("foreignObject")
-    .attr("width", 20)
-    .attr("height", 20)
-    .attr("y", labelXPosition-cellWidth*1.15)
-    // .attr("x", 30)
+    .attr("width", 15 * unitWidth)  // Make sure the foreignObject has some width
+    .attr("height", 15 * unitWidth)  // And some height to allow for centering
+    .attr("x", 0)  // Horizontal position
+    .attr("y", labelXPosition - cellWidth * 1.25)  // Vertical position
     .append("xhtml:body")
-    .style("margin", "0")
-    .style("padding", "0")
-    .html((d) => `<input type="checkbox" checked value="${d}" onchange="updateSelectedCategories(this.value, this.checked)">`);
+    .style("margin", "0")  // Reset default margins
+    .style("display", "flex")  // Use flexbox for centering
+    .style("justify-content", "center")  // Center horizontally
+    .style("align-items", "center")  // Center vertically
+    .style("width", "100%")  // Ensure the flex container takes full width
+    .style("height", "100%")  // Ensure the flex container takes full height
+    .html((d) => `<input type="checkbox" checked value="${d}" onchange="updateSelectedCategories(this.value, this.checked)" style="height:${0.5 * unitWidth}em; width:${0.5 * unitWidth}em; margin: 0;">`);  // Checkbox HTML
+  
 
   // Add y-axis labels and average scores
   const yLabels = svg
@@ -593,22 +635,22 @@ function renderHeatmap(filteredData) {
     .data(filteredData)
     .enter()
     .append("g")
-    .style("font-size", "8px");
+    .style("font-size", `${10 * unitWidth}px`);
 
   yLabels
     .append("text")
     .attr("class", "y-label")
     .attr("x", labelXPosition)
-    .attr("y", (d, i) => i * cellHeight + 35 + xLabelPadding)
-    .attr("dy", ".35em")
+    .attr("y", (d, i) => (i + 3.1) * cellHeight + xLabelPadding)
+    // .attr("dy", ".35em")
     .text((d) => d.model);
 
   yLabels
     .append("text")
     .attr("class", "average-score")
-    .attr("x", labelXPosition + 120) // Offset to display average next to model name
-    .attr("y", (d, i) => i * cellHeight + 35 + xLabelPadding)
-    .attr("dy", ".35em")
+    .attr("x", labelXPosition + 135 * unitWidth) // Offset to display average next to model name
+    .attr("y", (d, i) => (i + 3.1) * cellHeight + xLabelPadding)
+    // .attr("dy", ".35em")
     .text((d) => `(Avg: ${calculateAverage(d.scores).toFixed(2)})`)
     .style("font-weight", "bold");
 
@@ -616,6 +658,13 @@ function renderHeatmap(filteredData) {
     return scores.reduce((a, b) => a + b, 0) / scores.length;
   }
 }
+
+
+
+// Add an event listener to re-render the heatmap on window resize
+window.addEventListener('resize', function() {
+    updateHeatmap();
+});
 
 // Initial rendering and checkbox setup
 updateHeatmap();
