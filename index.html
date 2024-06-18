@@ -231,28 +231,35 @@
     #domain-selection .categories {
       display: none;
       /* Initially hide all categories */
-      margin-left: 20px;
+      /* margin-left: 20px; */
       /* Indent categories for visual hierarchy */
     }
 
     #domain-selection .categories[data-visible="true"] {
       display: block;
+      font-size: calc(150vw / 100);
       /* Show categories when visible */
     }
 
-    .domain h3 {
-      cursor: pointer;
+    .domain h4 {
+      /* cursor: pointer; */
+      font-size: calc(140vw / 100);
+      text-align: center;
+      margin-top: calc(200vw / 100);
+      margin-bottom: calc(50vw / 100);
       /* Indicates the domain titles are clickable */
     }
 
     .domain button {
-      margin: 5px;
-      padding: 5px 10px;
+      margin: calc(20vw / 100);
+      padding: calc(20vw / 100) calc(60vw / 100);
       text-align: center;
-      font-size: 12px;
+      vertical-align: center;
+      font-size: calc(70vw / 100);
+      height: calc(160vw / 100);
       background-size: 200% auto;
       color: white;
-      border-radius: 10px;
+      border-radius: calc(60vw / 100);
       display: inline;
       border: 0px;
       font-weight: 300;
@@ -266,14 +273,15 @@
 
 
     .domain button.selected {
-      margin: 5px;
-      padding: 5px 10px;
+      margin: calc(20vw / 100);
+      padding: calc(20vw / 100) calc(60vw / 100);
       text-align: center;
-      font-size: 12px;
+      font-size: calc(70vw / 100);
+      height: calc(160vw / 100);
       transition: 0.5s;
       background-size: 200% auto;
       color: white;
-      border-radius: 10px;
+      border-radius: calc(60vw / 100);
       display: inline;
       border: 0px;
       font-weight: 300;
@@ -398,13 +406,13 @@
           <li> <a href="https://tinghaoxie.com/">Tinghao Xie<sup>1*</sup></a> </li>
           <li> <a href="https://unispac.github.io/">Xiangyu Qi<sup>1*</sup></a> </li>
           <li> <a href="https://www.yi-zeng.com/"> Yi Zeng<sup>2*</sup></a> </li>
-          <li> <a href="https://hazelsuko07.github.io/yangsibo/"> Yangsibo Huang<sup>1*</sup></a> </li>
+          <li> <a href="https://hazelsuko07.github.io/yangsibo/"> Yangsibo Huang<sup>1*</sup></a> </li><br>
           <li> <a href="https://udarimadhu.github.io/">Udari Madhushani Sehwag<sup>3</sup></a> </li>
           <li> <a href="https://hackyhuang.github.io/"> Kaixuan Huang<sup>1</sup></a> </li>
           <li> <a href="https://x.com/luxihelucy"> Luxi He<sup>1</sup></a> </li>
           <li> <a href="https://boyiwei.com/"> Boyi Wei<sup>1</sup></a> </li>
           <li> <a href="https://dachengli1.github.io/"> Dacheng Li<sup>4</sup></a> </li>
-          <li> <a href="https://sites.google.com/view/yingsheng/home"> Ying Sheng<sup>3</sup></a> </li>
+          <li> <a href="https://sites.google.com/view/yingsheng/home"> Ying Sheng<sup>3</sup></a> </li><br>
           <li> <a href="https://ruoxijia.info/">Ruoxi Jia<sup>2</sup></a></li>
           <li> <a href="https://aisecure.github.io/">Bo Li<sup>5,6</sup></a></li>
           <li> <a href="https://www.cs.princeton.edu/~li/">Kai Li<sup>1</sup></a></li>
@@ -547,39 +555,43 @@
     <div class="row" id="controls">
       <div class="col-md-10 col-md-offset-1">
         <h3>Benchmark Results</h3>
-        <div id="deselected-categories">
+        <!-- <div id="deselected-categories">
           <h4>Deselected Categories</h4>
           <div id="deselected-checkboxes"></div>
-        </div>
+        </div> -->
         <form id="categorySelection">
           <!-- Checkboxes will be inserted here by JavaScript -->
         </form>
         <div id="heatmap"></div>
-        <div id="domain-selection">
-          <div class="domain" data-domain="hate-speech">
-            <h4>#1-#5: Hate Speech Generation</h4>
+        <div id="domain-selection" style="display: flex;">
+          <div>
+          <div class="domain" data-domain="hate-speech" style="width: 100%; text-align: center;">
+            <h4>Hate Speech Generation </h4>
+            <div class="categories" data-visible="true">
+            <!-- Categories are dynamically filled based on selection -->
+            </div>
+          </div>
+          <div class="domain" data-domain="crimes-torts" style="width: 100%; text-align: center;">
+            <h4>Assistance with Crimes or Torts </h4>
             <div class="categories" data-visible="true">
               <!-- Categories are dynamically filled based on selection -->
             </div>
           </div>
-          <div class="domain" data-domain="crimes-torts">
-            <h4>#6-#25: Assistance with Crimes or Torts</h4>
+        </div>
+        <div>
+          <div class="domain" data-domain="inappropriate-topics" style="width: 100%; text-align: center;">
+            <h4>Potentially Inappropriate Topics </h4>
             <div class="categories" data-visible="true">
               <!-- Categories are dynamically filled based on selection -->
             </div>
           </div>
-          <div class="domain" data-domain="inappropriate-topics">
-            <h4>#26-#40: Potentially Inappropriate Topics</h4>
+          <div class="domain" data-domain="unqualified-advice" style="width: 100%; text-align: center;">
+            <h4>Potentially Unqualified Advice </h4>
             <div class="categories" data-visible="true">
               <!-- Categories are dynamically filled based on selection -->
             </div>
           </div>
-          <div class="domain" data-domain="unqualified-advice">
-            <h4>#41-#45: Potentially Unqualified Advice</h4>
-            <div class="categories" data-visible="true">
-              <!-- Categories are dynamically filled based on selection -->
-            </div>
-          </div>
+        </div>
         </div>
       </div>
     </div>

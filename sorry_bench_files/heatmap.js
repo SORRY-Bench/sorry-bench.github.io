@@ -489,17 +489,21 @@ let selectedCategories = all_categories;
 let deselectedCategories = [];
 
 function updateSelectedCategories(category, isChecked) {
-  if (isChecked && !selectedCategories.includes(category)) {
-    selectedCategories.push(category);
-    deselectedCategories = deselectedCategories.filter((cat) => cat !== category);
-  } else {
+  if (isChecked) {
+    if (!selectedCategories.includes(category)) {
+      selectedCategories.push(category);
+      deselectedCategories = deselectedCategories.filter((cat) => cat !== category);
+    }
+    else return;
+  }
+  else {
     selectedCategories = selectedCategories.filter((cat) => cat !== category);
     if (!deselectedCategories.includes(category)) {
       deselectedCategories.push(category);
     }
   }
   updateHeatmap();
-  updateDeselectedCheckboxes();
+  // updateDeselectedCheckboxes();
 }
 
 function updateDeselectedCheckboxes() {
@@ -646,13 +650,13 @@ function renderHeatmap(filteredData) {
     .enter()
     .append("g")
     .attr("class", "x-label")
-    .attr("transform", (d, i) => `translate(${labelPadding + i * cellWidth}, ${15 * unitWidth}) rotate(90)`);
+    .attr("transform", (d, i) => `translate(${labelPadding + i * cellWidth}, ${15 * unitWidth}) rotate(270)`);
 
   xLabels
     .append("text")
     .attr("text-anchor", "top")
-    .attr("x", 20 * unitWidth)
-    .attr("y", labelXPosition-cellWidth*0.55)
+    .attr("x", -135 * unitWidth)
+    .attr("y", labelXPosition+cellWidth*0.4)
     .style("font-size", `${0.5 * unitWidth}em`)
     .style("margin", "0")
     .style("padding", "0")
@@ -662,8 +666,8 @@ function renderHeatmap(filteredData) {
     .append("foreignObject")
     .attr("width", 15 * unitWidth)  // Make sure the foreignObject has some width
     .attr("height", 15 * unitWidth)  // And some height to allow for centering
-    .attr("x", 0)  // Horizontal position
-    .attr("y", labelXPosition - cellWidth * 0.55 - 11 * unitWidth)  // Vertical position
+    .attr("x", -150 * unitWidth)  // Horizontal position
+    .attr("y", labelXPosition + cellWidth * 0.4 - 10 * unitWidth)  // Vertical position
     .append("xhtml:body")
     .style("margin", "0")  // Reset default margins
     .style("display", "flex")  // Use flexbox for centering
@@ -707,15 +711,15 @@ function renderHeatmap(filteredData) {
 }
 
 
-document.querySelectorAll('.domain h3').forEach(header => {
-    header.addEventListener('click', function() {
-        const parent = this.parentElement;
-        const categories = parent.querySelector('.categories');
-        const isVisible = categories.getAttribute('data-visible') === 'true';
-        categories.setAttribute('data-visible', !isVisible); // Toggle visibility
-        categories.style.display = !isVisible ? 'block' : 'none'; // Toggle display
-    });
-});
+// document.querySelectorAll('.domain h4').forEach(header => {
+//     header.addEventListener('click', function() {
+//         const parent = this.parentElement;
+//         const categories = parent.querySelector('.categories');
+//         const isVisible = categories.getAttribute('data-visible') === 'true';
+//         categories.setAttribute('data-visible', !isVisible); // Toggle visibility
+//         categories.style.display = !isVisible ? 'block' : 'none'; // Toggle display
+//     });
+// });
 
 
 const domainCategories = {
@@ -730,18 +734,36 @@ document.querySelectorAll('.domain').forEach(domain => {
     const categoriesDiv = domain.querySelector('.categories');
     domainCategories[domainKey].forEach(cat => {
         const button = document.createElement('button');
+        console.log(cat);
         // set button element to selected by default
         button.classList.add('selected');
         button.textContent = cat;
+        
+        // set font size
+        // button.style.fontSize = `calc(80vw / 100)`;
+        // button.style.height = `calc(200vw / 100)`;
+        
         button.addEventListener('click', () => {
             const isChecked = selectedCategories.includes(cat);
-            updateSelectedCategories(cat, ~isChecked)
+            updateSelectedCategories(cat, !isChecked)
             updateHeatmap(); // Update heatmap
         });
         categoriesDiv.appendChild(button);
-        // const br = document.createElement('br');
-        // categoriesDiv.appendChild(br);
     });
+    // add a select all checkbox for each domain right next to the domain name
+    const selectAll = document.createElement('input');
+    selectAll.type = 'checkbox';
+    selectAll.checked = true;
+    selectAll.style.height = `calc(100vw / 100)`;
+    selectAll.onchange = () => {
+        const isChecked = selectAll.checked;
+        domainCategories[domainKey].forEach(cat => {
+            updateSelectedCategories(cat, isChecked);
+        });
+        updateHeatmap();
+    };
+    domain.querySelector('h4').appendChild(selectAll);
+
 });
 
 // Update button background color based on the selected categories
