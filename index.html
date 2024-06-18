@@ -228,6 +228,17 @@
       color: #999;
     }
 
+    #tooltip {
+      position: absolute;
+      display: none;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      border-radius: 5px;
+      pointer-events: none;
+      z-index: 10;
+  }
+
     #domain-selection .categories {
       display: none;
       /* Initially hide all categories */
@@ -243,7 +254,7 @@
 
     .domain h4 {
       /* cursor: pointer; */
-      font-size: calc(140vw / 100);
+      font-size: calc(130vw / 100);
       text-align: center;
       margin-top: calc(200vw / 100);
       margin-bottom: calc(50vw / 100);
@@ -291,6 +302,21 @@
       user-select: none;
       -webkit-user-select: none;
       touch-action: manipulation;
+    }
+
+    .domain button.selected[data-domain="hate-speech"] {
+      box-shadow: 0px 0px 14px -7px #f09819;
+      background-image: linear-gradient(45deg, #d73d25 0%, #ef7360 51%, #d73d25 100%);
+    }
+
+    .domain button.selected[data-domain="inappropriate-topics"] {
+      box-shadow: 0px 0px 14px -7px #f09819;
+      background-image: linear-gradient(45deg, #a50ad8 0%, #db78f6 51%, #a50ad8 100%);
+    }
+
+    .domain button.selected[data-domain="unqualified-advice"] {
+      box-shadow: 0px 0px 14px -7px #f09819;
+      background-image: linear-gradient(45deg, #529900 0%, #8ada2d 51%, #529900 100%);
     }
 
     .domain button:hover {
@@ -563,6 +589,7 @@
           <!-- Checkboxes will be inserted here by JavaScript -->
         </form>
         <div id="heatmap"></div>
+        <div id="tooltip" style="position: absolute; display: none; padding: 10px; background: rgba(0, 0, 0, 0.6); color: white; border-radius: 5px; pointer-events: none; z-index: 10;"></div>
         <div id="domain-selection" style="display: flex;">
           <div>
           <div class="domain" data-domain="hate-speech" style="width: 100%; text-align: center;">
@@ -572,7 +599,7 @@
             </div>
           </div>
           <div class="domain" data-domain="crimes-torts" style="width: 100%; text-align: center;">
-            <h4>Assistance with Crimes or Torts </h4>
+            <h4><p id="#linebreak" style="height: 25px;"></p>Assistance with Crimes or Torts </h4>
             <div class="categories" data-visible="true">
               <!-- Categories are dynamically filled based on selection -->
             </div>
@@ -643,13 +670,13 @@
             width="75%" style="margin:0 auto;padding-top: 1em;"><br><br>
         </div>
         <div class="text-justify">
-          Putting these together, we evaluate over 40 proprietary and open-source LLMs on SORRY-Bench, analyzing their
+          Putting these together, we evaluate <b>over 40</b> proprietary and open-source LLMs on SORRY-Bench, analyzing their
           distinctive refusal behaviors. We hope our effort provides a building block for systematic evaluations of
           LLMs’ safety refusal capabilities, in a balanced, granular, and efficient way.
-          <div style="text-align: center;">
+          <!-- <div style="text-align: center;">
             <img src="sorry_bench_files/images/sorry_bench.png" class="img-responsive" alt="overview" width="100%"
               style="margin:0 auto;padding-top: 1em;"><br><br>
-          </div>
+          </div> -->
         </div>
         <!-- <center>
           <img src="" class="img-responsive" alt="overview" width="100%"
@@ -734,7 +761,7 @@
                       <pre
                         class=" CodeMirror-line "><span style="padding-right: 0.1px;"> &nbsp;  title={SORRY-Bench: Systematically Evaluating LLM Safety Refusal Behaviors},</span></pre>
                       <pre
-                        class=" CodeMirror-line "><span style="padding-right: 0.1px;"> &nbsp;  author={Tinghao Xie and Xiangyu Qi1 and Yi Zeng and Yangsibo Huang and Udari Madhushani Sehwag and Kaixuan Huang and Luxi He and Boyi Wei and Dacheng Li and Ying Sheng and Ruoxi Jia and Bo Li and Kai Li and Danqi Chen and Peter Henderson and Prateek Mittal},</span></pre>
+                        class=" CodeMirror-line "><span style="padding-right: 0.1px;"> &nbsp;  author={Tinghao Xie and Xiangyu Qi and Yi Zeng and Yangsibo Huang and Udari Madhushani Sehwag and Kaixuan Huang and Luxi He and Boyi Wei and Dacheng Li and Ying Sheng and Ruoxi Jia and Bo Li and Kai Li and Danqi Chen and Peter Henderson and Prateek Mittal},</span></pre>
                       <pre
                         class=" CodeMirror-line "><span style="padding-right: 0.1px;"> &nbsp;  year={2024},</span></pre>
                       <pre

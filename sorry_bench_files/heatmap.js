@@ -618,7 +618,7 @@ function renderHeatmap(filteredData) {
   const cells = rows
     .selectAll(".cell")
     .data((d) =>
-      d.scores.map((score, index) => ({ score, category: d.categories[index] }))
+      d.scores.map((score, index, model) => ({score, category: d.categories[index], model: d.model }))
     )
     .enter()
     .append("g"); // Group for each cell to contain rect and text
@@ -643,6 +643,71 @@ function renderHeatmap(filteredData) {
     .attr("fill", (d) => d.score <= 0.4 ? "black" : "white") // Choose a text color based on the score
     .style("font-size", `${7 * unitWidth}px`); // Adjust font size as needed
 
+    // When mouse is hovered over a cell, show the score as a tooltip
+    cells.selectAll("text")
+    .on("mouseover", function(event, d) {
+        // Show the tooltip
+        d3.select("#tooltip")
+            .style("display", "block")
+            .html(`Model: ${d.model}<br>Score: ${d.score.toFixed(1)}<br>Category: ${d.category}`);
+    })
+    .on("mousemove", function(event, d) {
+
+        // get the actual html element
+        parent = d3.select(this).node().parentNode
+        console.log(parent);
+        // get the second child of the parent
+        rect = parent.childNodes[1];
+        // get the x and y position of the html element
+        xPos = parseFloat(rect.getAttribute("x"));
+        yPos = parseFloat(rect.getAttribute("y"));
+        console.log(rect, xPos, yPos);
+
+        // get the parent of the parent (the row)
+        row = parent.parentNode
+        transform = row.getAttribute("transform");
+        console.log(transform);
+        // get the y value of the transform
+        row_yPos = transform.split(",")[1].replace(")", "");
+        // console.log("row_yPos:", row_yPos);
+        
+
+        // Compute real x and y position
+        yPos = parseFloat(yPos) + parseFloat(row_yPos);
+        // console.log("yPos:", yPos);
+
+        // Consider the width of the tooltip
+        const tooltipWidth = parseFloat(d3.select("#tooltip").style("width"));
+        const tooltipHeight = parseFloat(d3.select("#tooltip").style("height"));
+        yPos = yPos + tooltipHeight;
+        xPos = xPos + tooltipWidth;
+
+        // Avoid overflow on the right side
+        if (xPos + 20 * unitWidth > clientWidth / 1.2) {
+            xPos = xPos + 2 * unitWidth - tooltipWidth;
+        }
+        else {
+            xPos = xPos + 35 * unitWidth;
+        }
+
+        // Position the tooltip near the mouse cursor
+        d3.select("#tooltip")
+            .style("left", (xPos) + "px")
+            .style("top", (yPos) + "px");
+            // .style("left", (event.clientX) + "px") // Offset by 10px from cursor x
+            // .style("top", (event.clientY) + "px"); // Offset by 10px from cursor y
+    })
+    .on("mouseout", function() {
+        // Hide the tooltip
+        d3.select("#tooltip").style("display", "none");
+    });
+
+    d3.select("#tooltip")
+        .style("font-size", `${10 * unitWidth}px`)
+        .style("width", `${200 * unitWidth}px`)
+        .style("padding", `${5 * unitWidth}px`)
+        .style("border-radius", `${5 * unitWidth}px`)
+
   // Add x-axis labels with checkboxes
   const xLabels = svg
     .selectAll(".x-label")
@@ -656,7 +721,7 @@ function renderHeatmap(filteredData) {
     .append("text")
     .attr("text-anchor", "top")
     .attr("x", -135 * unitWidth)
-    .attr("y", labelXPosition+cellWidth*0.4)
+    .attr("y", labelXPosition+cellWidth*0.495)
     .style("font-size", `${0.5 * unitWidth}em`)
     .style("margin", "0")
     .style("padding", "0")
@@ -667,7 +732,7 @@ function renderHeatmap(filteredData) {
     .attr("width", 15 * unitWidth)  // Make sure the foreignObject has some width
     .attr("height", 15 * unitWidth)  // And some height to allow for centering
     .attr("x", -150 * unitWidth)  // Horizontal position
-    .attr("y", labelXPosition + cellWidth * 0.4 - 10 * unitWidth)  // Vertical position
+    .attr("y", labelXPosition + cellWidth * 0.495 - 10 * unitWidth)  // Vertical position
     .append("xhtml:body")
     .style("margin", "0")  // Reset default margins
     .style("display", "flex")  // Use flexbox for centering
@@ -740,8 +805,13 @@ document.querySelectorAll('.domain').forEach(domain => {
         button.textContent = cat;
         
         // set font size
-        // button.style.fontSize = `calc(80vw / 100)`;
-        // button.style.height = `calc(200vw / 100)`;
+        const container = document.getElementById('heatmap'); // Get the container
+        clientWidth = container.clientWidth
+        unitWidth = clientWidth / 900
+        button.style.fontSize = `${unitWidth *10}px`;
+        button.style.height = `${unitWidth * 20}px`;
+        // add "data-domain" attribute to the button
+        button.setAttribute('data-domain', domainKey);
         
         button.addEventListener('click', () => {
             const isChecked = selectedCategories.includes(cat);
@@ -750,11 +820,19 @@ document.querySelectorAll('.domain').forEach(domain => {
         });
         categoriesDiv.appendChild(button);
     });
+    
     // add a select all checkbox for each domain right next to the domain name
     const selectAll = document.createElement('input');
     selectAll.type = 'checkbox';
     selectAll.checked = true;
-    selectAll.style.height = `calc(100vw / 100)`;
+    // selectAll.style.height = `calc(100vw / 100)`;
+    // selectAll.style.width = `calc(100vw / 100)`;
+    const container = document.getElementById('heatmap'); // Get the container
+    clientWidth = container.clientWidth
+    unitWidth = clientWidth / 900
+    selectAll.style.height = `${unitWidth * 16}px`;
+    selectAll.style.width = `${unitWidth * 16}px`;
+
     selectAll.onchange = () => {
         const isChecked = selectAll.checked;
         domainCategories[domainKey].forEach(cat => {
@@ -773,6 +851,37 @@ function updateSelectedButtons() {
         const isSelected = selectedCategories.includes(cat);
         btn.classList.toggle('selected', isSelected);
         // btn.style.backgroundColor = isSelected ? '#f7dfa4' : 'white';
+        
+        const container = document.getElementById('heatmap'); // Get the container
+        clientWidth = container.clientWidth
+        unitWidth = clientWidth / 900
+        btn.style.fontSize = `${unitWidth *10}px`;
+        btn.style.height = `${unitWidth * 20}px`;
+        btn.style.margin = `${unitWidth * 3}px`;
+        btn.style.padding = `${unitWidth * 3}px ${unitWidth * 8}px`;
+        // set border-radius to 10% of the button height
+        btn.style.borderRadius = `${unitWidth * 8}px`;
+    });
+
+    // Also update the fontsize of the domain selection div (which controls the line break height)
+    document.querySelectorAll('#domain-selection .categories').forEach(domain => {
+        domain.style.fontSize = `${unitWidth * 18}px`;
+    });
+
+    // And headings too
+    document.querySelectorAll('.domain h4').forEach(domain => {
+        domain.style.fontSize = `${unitWidth * 20}px`;
+        domain.style.marginTop = `${unitWidth * 20}px`;
+        domain.style.marginBottom = `${unitWidth * 4}px`;
+    });
+    document.querySelectorAll('.domain h4 p').forEach(linebreak => {
+        linebreak.style.height = `${unitWidth * 18}px`;
+    });
+    
+    // for each checkbox, set the font size
+    document.querySelectorAll('.domain input').forEach(checkbox => {
+        checkbox.style.height = `${unitWidth * 16}px`;
+        checkbox.style.width = `${unitWidth * 16}px`;
     });
 }
 
