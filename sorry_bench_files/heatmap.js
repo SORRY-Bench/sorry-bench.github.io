@@ -506,24 +506,24 @@ function updateSelectedCategories(category, isChecked) {
   // updateDeselectedCheckboxes();
 }
 
-function updateDeselectedCheckboxes() {
-  const deselectedContainer = document.getElementById('deselected-checkboxes');
-  deselectedContainer.innerHTML = '';
-  deselectedCategories.forEach((category) => {
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.value = category;
-    checkbox.checked = false;
-    checkbox.onchange = () => updateSelectedCategories(category, checkbox.checked);
+// function updateDeselectedCheckboxes() {
+//   const deselectedContainer = document.getElementById('deselected-checkboxes');
+//   deselectedContainer.innerHTML = '';
+//   deselectedCategories.forEach((category) => {
+//     const checkbox = document.createElement('input');
+//     checkbox.type = 'checkbox';
+//     checkbox.value = category;
+//     checkbox.checked = false;
+//     checkbox.onchange = () => updateSelectedCategories(category, checkbox.checked);
 
-    const label = document.createElement('label');
-    label.appendChild(checkbox);
-    label.appendChild(document.createTextNode(category));
+//     const label = document.createElement('label');
+//     label.appendChild(checkbox);
+//     label.appendChild(document.createTextNode(category));
 
-    deselectedContainer.appendChild(label);
-    // deselectedContainer.appendChild(document.createElement('br'));
-  });
-}
+//     deselectedContainer.appendChild(label);
+//     // deselectedContainer.appendChild(document.createElement('br'));
+//   });
+// }
 
 function updateHeatmap() {
   // Sort selected categories based on all_categories order
@@ -655,18 +655,18 @@ function renderHeatmap(filteredData) {
 
         // get the actual html element
         parent = d3.select(this).node().parentNode
-        console.log(parent);
+        // console.log(parent);
         // get the second child of the parent
         rect = parent.childNodes[1];
         // get the x and y position of the html element
         xPos = parseFloat(rect.getAttribute("x"));
         yPos = parseFloat(rect.getAttribute("y"));
-        console.log(rect, xPos, yPos);
+        // console.log(rect, xPos, yPos);
 
         // get the parent of the parent (the row)
         row = parent.parentNode
         transform = row.getAttribute("transform");
-        console.log(transform);
+        // console.log(transform);
         // get the y value of the transform
         row_yPos = transform.split(",")[1].replace(")", "");
         // console.log("row_yPos:", row_yPos);
@@ -678,17 +678,25 @@ function renderHeatmap(filteredData) {
 
         // Consider the width of the tooltip
         const tooltipWidth = parseFloat(d3.select("#tooltip").style("width"));
-        const tooltipHeight = parseFloat(d3.select("#tooltip").style("height"));
-        yPos = yPos + tooltipHeight;
+        // const tooltipHeight = parseFloat(d3.select("#tooltip").style("height"));
+        // yPos = yPos + tooltipHeight;
         xPos = xPos + tooltipWidth;
 
         // Avoid overflow on the right side
-        if (xPos + 20 * unitWidth > clientWidth / 1.2) {
-            xPos = xPos + 2 * unitWidth - tooltipWidth;
+        if (xPos + cellWidth * 0.5 > clientWidth / 1.2) {
+            xPos = xPos - tooltipWidth;
         }
         else {
-            xPos = xPos + 35 * unitWidth;
+            xPos = xPos + cellWidth * 0.5
         }
+        
+        containerX = container.getBoundingClientRect().x
+        containerY = container.getBoundingClientRect().y
+        parentX = container.parentElement.getBoundingClientRect().x
+        parentY = container.parentElement.getBoundingClientRect().y
+        dY = containerY - parentY; // Offset from div start to heatmap start
+        yPos = yPos + dY
+
 
         // Position the tooltip near the mouse cursor
         d3.select("#tooltip")
@@ -704,7 +712,7 @@ function renderHeatmap(filteredData) {
 
     d3.select("#tooltip")
         .style("font-size", `${10 * unitWidth}px`)
-        .style("width", `${200 * unitWidth}px`)
+        .style("width", `${210 * unitWidth}px`)
         .style("padding", `${5 * unitWidth}px`)
         .style("border-radius", `${5 * unitWidth}px`)
 
@@ -799,7 +807,7 @@ document.querySelectorAll('.domain').forEach(domain => {
     const categoriesDiv = domain.querySelector('.categories');
     domainCategories[domainKey].forEach(cat => {
         const button = document.createElement('button');
-        console.log(cat);
+        // console.log(cat);
         // set button element to selected by default
         button.classList.add('selected');
         button.textContent = cat;
@@ -894,4 +902,4 @@ window.addEventListener('resize', function() {
 
 // Initial rendering and checkbox setup
 updateHeatmap();
-updateDeselectedCheckboxes();
+// updateDeselectedCheckboxes();
