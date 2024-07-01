@@ -483,6 +483,26 @@ const data = [
     ],
     categories: all_categories,
   },
+  {
+    model: "claude-3-5-sonnet-20240620",
+    scores: [0.0, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.0, 0.4, 0.0, 0.0, 0.1, 0.3, 0.0, 0.4, 0.3, 0.9, 0.8, 0.2, 0.2, 0.1, 0.0, 0.1, 0.7, 0.3, 0.8, 0.1, 0.2],
+    categories: all_categories,
+  },
+  {
+    model: "gemma-2b-it",
+    scores: [0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.1, 0.0, 0.8, 0.1, 0.0, 0.0, 0.0, 0.7, 0.0, 0.2, 0.1, 0.0, 0.2, 0.1, 0.1, 0.0, 0.1, 0.1, 0.1, 0.1, 0.7, 0.1, 0.4, 0.3, 0.6, 0.9, 0.1, 0.1, 0.0, 0.5, 0.1, 0.2, 0.6, 0.9, 0.1, 0.5],
+    categories: all_categories,
+  },
+  {
+    model: "gemma-2-9b-it",
+    scores: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.7, 0.0, 0.0, 0.0, 0.0, 0.7, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.2, 0.2, 0.3, 0.0, 0.3, 0.1, 0.6, 0.7, 0.1, 0.1, 0.0, 0.1, 0.1, 0.0, 0.2, 0.5, 0.0, 0.1],
+    categories: all_categories,
+  },
+  {
+    model: "gemma-2-27b-it",
+    scores: [0.0, 0.0, 0.2, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.7, 0.0, 0.0, 0.1, 0.0, 0.6, 0.0, 0.0, 0.1, 0.0, 0.0, 0.1, 0.0, 0.0, 0.1, 0.1, 0.2, 0.2, 0.3, 0.0, 0.4, 0.1, 0.4, 0.6, 0.2, 0.1, 0.0, 0.2, 0.0, 0.1, 0.2, 0.3, 0.0, 0.1],
+    categories: all_categories,
+  },
 ];
 
 let selectedCategories = all_categories;
@@ -556,46 +576,46 @@ function calculateAverage(scores) {
 }
 
 function renderHeatmap(filteredData) {
-    const container = document.getElementById('heatmap'); // Get the container
-    clientWidth = container.clientWidth
-    unitWidth = clientWidth / 900
-    // let svgWidth = container.clientWidth; // Use the container's width
-    // let svgHeight = svgWidth * 0.8; // Maintain 4:3 aspect ratio
+  const container = document.getElementById('heatmap'); // Get the container
+  clientWidth = container.clientWidth
+  unitWidth = clientWidth / 900
+  // let svgWidth = container.clientWidth; // Use the container's width
+  // let svgHeight = svgWidth * 0.8; // Maintain 4:3 aspect ratio
   const svgWidth = 900 * unitWidth; // Maintain width for better label spacing
-  const svgHeight = 690 * unitWidth;
-  const labelPadding = 200 * unitWidth; // Space for y-axis labels
+  const svgHeight = 740 * unitWidth;
+  const labelPadding = 210 * unitWidth; // Space for y-axis labels; start x position of the heatmap grids
   const cellWidth = (svgWidth - labelPadding) / selectedCategories.length; // Adjust cell width to fit labels
   const cellHeight = 15 * unitWidth;
   const xLabelPadding = 130 * unitWidth; // Padding for x-axis labels
   const labelXPosition = 5 * unitWidth; // X position for model names and their average score
 
-    // Define a custom "Sunsetdark" color scale using d3.scaleLinear
-    const colorScale = d3.scaleOrdinal()
-        .domain([0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0])  // All possible score values
-        .range([
-            '#f7dfa4',  // 0.0 - Keep as the lightest tone
-            '#f4b272',  // 0.1 - More saturated orange
-            '#f19060',  // 0.2 - More saturated and deeper orange
-            '#ef7060',  // 0.3 - More saturated reddish-orange
-            '#ed5260',  // 0.4 - Richer red
-            '#eb3460',  // 0.5 - Bright pink/red
-            '#e91660',  // 0.6 - Vivid crimson
-            '#d60056',  // 0.7 - Deep magenta
-            '#c2004d',  // 0.8 - Darker magenta
-            // '#a80044',  // 0.9 - Even darker magenta
-            // '#8f003b',   // 1.0 - Rich maroon
-            // '#f7dfa4',  // 0.0
-            // '#f1bd8d',  // 0.1
-            // '#eb9e7b',   // 0.2
-            // '#e38475',   // 0.3
-            // '#db6d71',    // 0.4
-            // '#d25970',    // 0.5
-            // '#ce4e74',  // 0.6
-            // '#c44377',  // 0.7
-            // '#b03877',  // 0.8
-            '#942e73',   // 0.9
-            '#72256c',  // 1.0
-        ]);
+  // Define a custom "Sunsetdark" color scale using d3.scaleLinear
+  const colorScale = d3.scaleOrdinal()
+      .domain([0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0])  // All possible score values
+      .range([
+          '#f7dfa4',  // 0.0 - Keep as the lightest tone
+          '#f4b272',  // 0.1 - More saturated orange
+          '#f19060',  // 0.2 - More saturated and deeper orange
+          '#ef7060',  // 0.3 - More saturated reddish-orange
+          '#ed5260',  // 0.4 - Richer red
+          '#eb3460',  // 0.5 - Bright pink/red
+          '#e91660',  // 0.6 - Vivid crimson
+          '#d60056',  // 0.7 - Deep magenta
+          '#c2004d',  // 0.8 - Darker magenta
+          // '#a80044',  // 0.9 - Even darker magenta
+          // '#8f003b',   // 1.0 - Rich maroon
+          // '#f7dfa4',  // 0.0
+          // '#f1bd8d',  // 0.1
+          // '#eb9e7b',   // 0.2
+          // '#e38475',   // 0.3
+          // '#db6d71',    // 0.4
+          // '#d25970',    // 0.5
+          // '#ce4e74',  // 0.6
+          // '#c44377',  // 0.7
+          // '#b03877',  // 0.8
+          '#942e73',   // 0.9
+          '#72256c',  // 1.0
+      ]);
 
   const svg = d3
     .select("#heatmap")
@@ -672,30 +692,38 @@ function renderHeatmap(filteredData) {
         // console.log("row_yPos:", row_yPos);
         
 
-        // Compute real x and y position
-        yPos = parseFloat(yPos) + parseFloat(row_yPos);
-        // console.log("yPos:", yPos);
-
-        // Consider the width of the tooltip
-        const tooltipWidth = parseFloat(d3.select("#tooltip").style("width"));
-        // const tooltipHeight = parseFloat(d3.select("#tooltip").style("height"));
-        // yPos = yPos + tooltipHeight;
-        xPos = xPos + tooltipWidth;
-
-        // Avoid overflow on the right side
-        if (xPos + cellWidth * 0.5 > clientWidth / 1.2) {
-            xPos = xPos - tooltipWidth;
-        }
-        else {
-            xPos = xPos + cellWidth * 0.5
-        }
+        
+        
         
         containerX = container.getBoundingClientRect().x
         containerY = container.getBoundingClientRect().y
         parentX = container.parentElement.getBoundingClientRect().x
         parentY = container.parentElement.getBoundingClientRect().y
+
+        // Compute real x and y position
+        yPos = parseFloat(yPos) + parseFloat(row_yPos);
+        // console.log("yPos:", yPos);
         dY = containerY - parentY; // Offset from div start to heatmap start
         yPos = yPos + dY
+
+        // Consider the width of the tooltip
+        const tooltipWidth = parseFloat(d3.select("#tooltip").style("width"));
+        // const tooltipHeight = parseFloat(d3.select("#tooltip").style("height"));
+        // xPos = xPos + tooltipWidth;
+        // yPos = yPos + tooltipHeight;
+        // xPos = xPos + tooltipWidth + labelPadding;
+        dX = containerX - parentX; // Offset from div start to heatmap start
+        xPos = xPos + dX + tooltipWidth;
+
+        // Avoid overflow on the right side
+        if (xPos > clientWidth / 1.2) {
+            xPos = xPos - tooltipWidth;
+        }
+        // else {
+        //     xPos = xPos
+        // }
+        
+        
 
 
         // Position the tooltip near the mouse cursor
@@ -710,6 +738,8 @@ function renderHeatmap(filteredData) {
         d3.select("#tooltip").style("display", "none");
     });
 
+
+    // Set tooltip sizes
     d3.select("#tooltip")
         .style("font-size", `${10 * unitWidth}px`)
         .style("width", `${210 * unitWidth}px`)
@@ -770,7 +800,7 @@ function renderHeatmap(filteredData) {
   yLabels
     .append("text")
     .attr("class", "average-score")
-    .attr("x", labelXPosition + 135 * unitWidth) // Offset to display average next to model name
+    .attr("x", labelXPosition + 145 * unitWidth) // Offset to display average next to model name
     .attr("y", (d, i) => (i + 3.1) * cellHeight + xLabelPadding)
     // .attr("dy", ".35em")
     .text((d) => `(Avg: ${calculateAverage(d.scores).toFixed(2)})`)
