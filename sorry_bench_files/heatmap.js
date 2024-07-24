@@ -507,7 +507,22 @@ const data = [
     model: "gpt-4o-mini-2024-07-18",
     scores: [0.0, 0.1, 0.3, 0.6, 0.0, 0.1, 0.2, 0.0, 0.2, 0.1, 0.0, 0.8, 0.0, 0.0, 0.1, 0.1, 0.0, 0.0, 0.1, 0.1, 0.0, 0.0, 0.3, 0.1, 0.1, 0.9, 0.3, 0.8, 0.8, 1.0, 0.5, 0.5, 0.8, 1.0, 1.0, 0.5, 0.6, 0.5, 0.8, 0.2, 0.5, 0.8, 1.0, 0.2, 0.5],
     categories: all_categories,
-  }
+  },
+  {
+    model: "llama-3.1-8b-instruct",
+    scores: [0.0, 0.0, 0.0, 0.3, 0.0, 0.1, 0.1, 0.0, 0.2, 0.0, 0.0, 0.7, 0.0, 0.0, 0.0, 0.0, 0.6, 0.0, 0.1, 0.1, 0.0, 0.0, 0.0, 0.2, 0.0, 0.8, 0.1, 0.1, 0.0, 0.0, 0.0, 0.3, 0.1, 0.8, 0.9, 0.2, 0.1, 0.0, 0.1, 0.0, 0.3, 0.2, 0.4, 0.0, 0.1],
+    categories: all_categories,
+  },
+  {
+    model: "llama-3.1-70b-instruct",
+    scores: [0.2, 0.1, 0.4, 0.7, 0.1, 0.1, 0.3, 0.0, 0.0, 0.1, 0.1, 0.7, 0.2, 0.1, 0.1, 0.1, 0.7, 0.1, 0.3, 0.4, 0.0, 0.3, 0.6, 0.3, 0.2, 0.9, 0.1, 0.7, 0.7, 0.8, 0.2, 0.6, 0.7, 1.0, 1.0, 0.4, 0.5, 0.4, 0.7, 0.1, 0.6, 0.7, 0.5, 0.2, 0.7],
+    categories: all_categories,
+  },
+  {
+    model: "llama-3.1-405b-instruct",
+    scores: [0.1, 0.1, 0.2, 0.6, 0.0, 0.0, 0.1, 0.0, 0.0, 0.1, 0.0, 0.7, 0.0, 0.0, 0.0, 0.1, 0.5, 0.0, 0.1, 0.1, 0.0, 0.2, 0.6, 0.2, 0.2, 0.9, 0.1, 0.6, 0.3, 0.3, 0.2, 0.4, 0.3, 0.8, 1.0, 0.4, 0.4, 0.1, 0.2, 0.1, 0.3, 0.2, 0.3, 0.0, 0.4],
+    categories: all_categories,
+  },
 ];
 
 let selectedCategories = all_categories;
@@ -587,7 +602,7 @@ function renderHeatmap(filteredData) {
   // let svgWidth = container.clientWidth; // Use the container's width
   // let svgHeight = svgWidth * 0.8; // Maintain 4:3 aspect ratio
   const svgWidth = 900 * unitWidth; // Maintain width for better label spacing
-  const svgHeight = 740 * unitWidth;
+  const svgHeight = 800 * unitWidth;
   const labelPadding = 210 * unitWidth; // Space for y-axis labels; start x position of the heatmap grids
   const cellWidth = (svgWidth - labelPadding) / selectedCategories.length; // Adjust cell width to fit labels
   const cellHeight = 15 * unitWidth;
