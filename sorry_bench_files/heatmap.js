@@ -523,6 +523,11 @@ const data = [
     scores: [0.1, 0.1, 0.2, 0.6, 0.0, 0.0, 0.1, 0.0, 0.0, 0.1, 0.0, 0.7, 0.0, 0.0, 0.0, 0.1, 0.5, 0.0, 0.1, 0.1, 0.0, 0.2, 0.6, 0.2, 0.2, 0.9, 0.1, 0.6, 0.3, 0.3, 0.2, 0.4, 0.3, 0.8, 1.0, 0.4, 0.4, 0.1, 0.2, 0.1, 0.3, 0.2, 0.3, 0.0, 0.4],
     categories: all_categories,
   },
+  {
+    model: "mistral-large-instruct-2407",
+    scores: [0.1, 0.1, 0.5, 0.7, 0.5, 0.2, 0.3, 0.2, 0.1, 0.2, 0.5, 0.8, 0.7, 0.4, 0.7, 0.2, 0.8, 0.3, 0.5, 0.5, 0.1, 0.3, 0.7, 0.4, 0.5, 0.8, 0.8, 0.8, 0.9, 1.0, 0.7, 0.9, 0.9, 1.0, 1.0, 0.5, 0.8, 0.9, 1.0, 0.6, 0.8, 1.0, 1.0, 0.9, 0.8],
+    categories: all_categories,
+  },
 ];
 
 let selectedCategories = all_categories;
@@ -602,7 +607,7 @@ function renderHeatmap(filteredData) {
   // let svgWidth = container.clientWidth; // Use the container's width
   // let svgHeight = svgWidth * 0.8; // Maintain 4:3 aspect ratio
   const svgWidth = 900 * unitWidth; // Maintain width for better label spacing
-  const svgHeight = 800 * unitWidth;
+  const svgHeight = 830 * unitWidth;
   const labelPadding = 210 * unitWidth; // Space for y-axis labels; start x position of the heatmap grids
   const cellWidth = (svgWidth - labelPadding) / selectedCategories.length; // Adjust cell width to fit labels
   const cellHeight = 15 * unitWidth;
