@@ -522,7 +522,7 @@
       <h2 style="max-width: 25em" title">
         <b style="font-size: 2em;">S<img src="sorry_bench_files/images/sorry-bench-logo.jpg"
             style="width: 1em; border: 8px solid #333333; border-radius: 100%; margin-bottom: 0.1em;">RRY-Bench</b>:
-        Systematically Evaluating LLM Safety Refusal Behaviors
+        Systematically Evaluating LLM Safety Refusal
       </h2>
       <!-- <h3 class="col-md-12 text-center" id="title" style="color: rgb(242, 136, 50);">
         Alignment can be compromised with just 10 training ™examples, a cost of less than <b>$0.20</b>!
@@ -531,6 +531,11 @@
   </div>
   <script>
   </script>
+  <div class="container" id="main">
+    <div class="col-sm-10 col-sm-offset-1 text-center">
+      <ul class="list-inline"><text class="sorry-bench-color-text"><b>ICLR 2025</b></text></ul>
+    </div>
+  </div>
   <div class="container" id="main">
     <div class="row">
       <div class="col-sm-10 col-sm-offset-1 text-center">
@@ -625,7 +630,7 @@
         </span>
 
         <span class="link-block">
-          <a href="https://huggingface.co/datasets/sorry-bench/sorry-bench-202406"
+          <a href="https://huggingface.co/datasets/sorry-bench/sorry-bench-202503"
             class="external-link button is-normal is-rounded is-dark"
             style="background-color: rgb(242, 136, 50);font-size: 13px;color:rgb(45, 45, 45);font-weight:900;border: 2px solid rgb(45, 45, 45)">
             <span class="icon">
@@ -657,7 +662,7 @@
         <br>
         
         <span class="link-block">
-          <a href="https://huggingface.co/datasets/sorry-bench/sorry-bench-human-judgment-202406"
+          <a href="https://huggingface.co/datasets/sorry-bench/sorry-bench-human-judgment-202503"
             class="external-link button is-normal is-rounded is-dark"
             style="background-color: rgb(242, 136, 50);font-size: 13px;color:rgb(45, 45, 45);font-weight:900;border: 2px solid rgb(45, 45, 45)">
             <span class="icon">
@@ -839,7 +844,7 @@
         <h3 id="benchmark_demo">SORRY-Bench: Results Demo</h3>
         <div class="text-justify">
           We introduce 🥺<u><b>SORRY-Bench</b></u> to systematically evaluate LLM safety refusal behaviors, in a balanced, granular, customizable, and efficient manner.
-          Below, we showcase the <i><b>fulfillment rates</b></i> (the portion of unsafe instructions the models fulfill, i.e., do not refuse) of 43 proprietary and open-source LLMs, across 45 fine-grained potentially unsafe topics.
+          Below, we showcase the <i><b>fulfillment rates</b></i> (the portion of unsafe instructions the models fulfill, i.e., do not refuse) of 50+ proprietary and open-source LLMs, across 44 fine-grained potentially unsafe topics.
           A lower↓ fulfillment rate indicates 💪stronger safety refusal.
         </div>
       
@@ -912,16 +917,16 @@
           evaluated, tests for refusals of self-harm instructions are over 3x less represented than tests for fraudulent
           activities.<br> -->
           <img src="sorry_bench_files/images/prior-datasets-frequnecy-distribution-ranked.png" style="margin: 10px"></img>
-          <p style="color: #777;text-align: center">Imbalanced data point distribution of 10 prior datasets (§2.2) on our 45-class taxonomy.</p>
+          <p style="color: #777;text-align: center">Imbalanced data point distribution of 10 prior datasets (§2.2) on our 44-class taxonomy.</p>
           
           <!-- SORRY-Bench improves on this by using a <b style="color:rgb(219, 121, 41)">fine-grained taxonomy
             of 45 potentially unsafe topics</b>, and <b style="color:rgb(219, 121, 41)">450 class-balanced unsafe
             instructions</b>, compiled through human-in-the-loop methods. -->
-          To bridge this gap, we present a <b class="sorry-bench-color-text">fine-grained 45-class safety taxonomy</b> (shown below; see §2.2 of our paper) across 4 high-level domains. We curate this taxonomy to unify the disparate taxonomies from prior work, employing a human-in-the-loop procedure for refinement – where we map data points from previous datasets to our taxonomy and iteratively identify any uncovered safety categories. Our resultant taxonomy captures diverse topics that could lead to potentially unsafe LLM responses, and allows stakeholders to evaluate LLM safety refusal on any of these risky topics at a more granular level.
-          On top of this 45-class taxonomy, we craft a <b class="sorry-bench-color-text">class-balanced LLM safety refusal evaluation dataset</b> (§2.3). Our base dataset consists of <b class="sorry-bench-color-text">450 unsafe instructions</b> in total, with additional manually created novel data points to ensure equal coverage across the 45 safety categories (10 per category).
+          To bridge this gap, we present a <b class="sorry-bench-color-text">fine-grained 44-class safety taxonomy</b> (shown below; see §2.2 of our paper) across 4 high-level domains. We curate this taxonomy to unify the disparate taxonomies from prior work, employing a human-in-the-loop procedure for refinement – where we map data points from previous datasets to our taxonomy and iteratively identify any uncovered safety categories. Our resultant taxonomy captures diverse topics that could lead to potentially unsafe LLM responses, and allows stakeholders to evaluate LLM safety refusal on any of these risky topics at a more granular level.
+          On top of this 44-class taxonomy, we craft a <b class="sorry-bench-color-text">class-balanced LLM safety refusal evaluation dataset</b> (§2.3). Our base dataset consists of <b class="sorry-bench-color-text">440 unsafe instructions</b> in total, with additional manually created novel data points to ensure equal coverage across the 44 safety categories (10 per category).
         </div>
         <div style="text-align: center;">
-          <img src="sorry_bench_files/images/sorry-bench-taxonomy.jpg" class="img-responsive" alt="overview" width="75%"
+          <img src="sorry_bench_files/images/sorry-bench-taxonomy-202503.jpg" class="img-responsive" alt="overview" width="75%"
             style="margin:0 auto;padding-top: 1em;">
         </div>
         <p style="color: #777;text-align: center">Taxonomy of SORRY-Bench.</p>
@@ -941,7 +946,7 @@
         </div>
         <p style="color: #777;text-align: center">Demonstration of 20 linguistic mutations we apply to our base dataset.</p>
         <div class="text-justify">
-          We address this by considering <b class="sorry-bench-color-text">20 diverse linguistic mutations</b> that real-world users might apply to phrase their unsafe prompts (Figure above; see §2.4 of our paper). These include rephrasing our dataset according to different <text class="sorry-bench-color-text">writing styles</text> (e.g., interrogative questions, misspellings, slang) and <text class="sorry-bench-color-text">persuasion techniques</text> (e.g., logical appeal), or transforming the unsafe instructions with <text class="sorry-bench-color-text">encoding and encryption strategies</text> (e.g., ASCII and Caesar) and into <text class="sorry-bench-color-text">multi-languages</text> (e.g., Tamil, French). After paraphrasing each unsafe instruction (written in imperative instruction style) of our base SORRY-Bench dataset via these mutations, we obtain <b class="sorry-bench-color-text">9K additional unsafe instructions</b>.
+          We address this by considering <b class="sorry-bench-color-text">20 diverse linguistic mutations</b> that real-world users might apply to phrase their unsafe prompts (Figure above; see §2.4 of our paper). These include rephrasing our dataset according to different <text class="sorry-bench-color-text">writing styles</text> (e.g., interrogative questions, misspellings, slang) and <text class="sorry-bench-color-text">persuasion techniques</text> (e.g., logical appeal), or transforming the unsafe instructions with <text class="sorry-bench-color-text">encoding and encryption strategies</text> (e.g., ASCII and Caesar) and into <text class="sorry-bench-color-text">multi-languages</text> (e.g., Tamil, French). After paraphrasing each unsafe instruction (written in imperative instruction style) of our base SORRY-Bench dataset via these mutations, we obtain <b class="sorry-bench-color-text">8.8K additional unsafe instructions</b>.
         </div>
         
         <br>
@@ -967,7 +972,7 @@
         <br>
         
         <div class="text-justify">
-          Putting these together, we evaluate <b class="sorry-bench-color-text">over 40</b> proprietary and open-source LLMs on SORRY-Bench (as shown in our <a href="./index.html#benchmark_demo">demo</a>), analyzing their distinctive refusal behaviors. We hope our effort provides a building block for systematic evaluations of
+          Putting these together, we evaluate <b class="sorry-bench-color-text">over 50</b> proprietary and open-source LLMs on SORRY-Bench (as shown in our <a href="./index.html#benchmark_demo">demo</a>), analyzing their distinctive refusal behaviors. We hope our effort provides a building block for systematic evaluations of
           LLMs’ safety refusal capabilities, in a balanced, granular, and efficient way.
           <!-- <div style="text-align: center;">
             <img src="sorry_bench_files/images/sorry_bench.png" class="img-responsive" alt="overview" width="100%"
@@ -989,8 +994,8 @@
 
         <h3 id="ethics">Ethics and Disclosure</h3>
         <div class="text-justify">
-          Our <a href="https://huggingface.co/datasets/sorry-bench/sorry-bench-202406">🤗unsafe instruction dataset</a> can be offensive in nature, especially in more prominently harmful categories (e.g., stereotype and hate speech). We notice that many of these unsafe instruction datasets are already publicly accessible. However, to prevent potential harm or misuse, and given that our dataset captures more comprehensive categories at a granular level, we decide to enforce <b>🚪gated access</b> to the dataset.
-          Our <a href="https://huggingface.co/datasets/sorry-bench/sorry-bench-human-judgment-202406">🤗human judgment dataset</a>, which contains numerous unsafe model responses, may have even more negative social impacts. For example, seeing those unsafe model responses containing insulting words could lead to personal discomfort. Moreover, the model responses could be resources harnessed by bad users to conduct crimes or torts in the real world. To reduce such negative impacts and concerns, we also put up restricted access to the human judge dataset.
+          Our <a href="https://huggingface.co/datasets/sorry-bench/sorry-bench-202503">🤗unsafe instruction dataset</a> can be offensive in nature, especially in more prominently harmful categories (e.g., stereotype and hate speech). We notice that many of these unsafe instruction datasets are already publicly accessible. However, to prevent potential harm or misuse, and given that our dataset captures more comprehensive categories at a granular level, we decide to enforce <b>🚪gated access</b> to the dataset.
+          Our <a href="https://huggingface.co/datasets/sorry-bench/sorry-bench-human-judgment-202503">🤗human judgment dataset</a>, which contains numerous unsafe model responses, may have even more negative social impacts. For example, seeing those unsafe model responses containing insulting words could lead to personal discomfort. Moreover, the model responses could be resources harnessed by bad users to conduct crimes or torts in the real world. To reduce such negative impacts and concerns, we also put up restricted access to the human judge dataset.
           Other than the datasets, our <a href="https://github.com/SORRY-Bench/SORRY-Bench">💻code</a> and <a href="https://huggingface.co/sorry-bench/ft-mistral-7b-instruct-v0.2-sorry-bench-202406">🤖safety judge model</a> can be accessed without any gated restrictions.
           <!-- <ul>
             <li>
@@ -1056,19 +1061,17 @@
                     </div>
                     <div class="CodeMirror-code">
                       <pre
-                        class=" CodeMirror-line "><span style="padding-right: 0.1px;">@misc{xie2024sorrybench,</span></pre>
+                        class=" CodeMirror-line "><span style="padding-right: 0.1px;">xie2025sorrybench,</span></pre>
                       <pre
-                        class=" CodeMirror-line "><span style="padding-right: 0.1px;"> &nbsp;  title={SORRY-Bench: Systematically Evaluating Large Language Model Safety Refusal Behaviors},</span></pre>
+                        class=" CodeMirror-line "><span style="padding-right: 0.1px;"> &nbsp;  title={SORRY-Bench: Systematically Evaluating Large Language Model Safety Refusal}, </span></pre>
                       <pre
                         class=" CodeMirror-line "><span style="padding-right: 0.1px;"> &nbsp;  author={Tinghao Xie and Xiangyu Qi and Yi Zeng and Yangsibo Huang and Udari Madhushani Sehwag and Kaixuan Huang and Luxi He and Boyi Wei and Dacheng Li and Ying Sheng and Ruoxi Jia and Bo Li and Kai Li and Danqi Chen and Peter Henderson and Prateek Mittal},</span></pre>
                       <pre
-                        class=" CodeMirror-line "><span style="padding-right: 0.1px;"> &nbsp;  year={2024},</span></pre>
+                        class=" CodeMirror-line "><span style="padding-right: 0.1px;"> &nbsp;  booktitle={The Thirteenth International Conference on Learning Representations},</span></pre>
                       <pre
-                        class=" CodeMirror-line "><span style="padding-right: 0.1px;"> &nbsp;  eprint={2406.14598},</span></pre>
+                        class=" CodeMirror-line "><span style="padding-right: 0.1px;"> &nbsp;  year={2025},</span></pre>
                       <pre
-                        class=" CodeMirror-line "><span style="padding-right: 0.1px;"> &nbsp;  archivePrefix={arXiv},</span></pre>
-                      <pre
-                        class=" CodeMirror-line "><span style="padding-right: 0.1px;"> &nbsp;  primaryClass={cs.AI}</span></pre>
+                        class=" CodeMirror-line "><span style="padding-right: 0.1px;"> &nbsp;  url={https://openreview.net/forum?id=YfKNaRktan}</span></pre>
                       <pre class=" CodeMirror-line "><span style="padding-right: 0.1px;">} </span>
                       </pre>
                     </div>
